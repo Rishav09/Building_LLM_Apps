@@ -16,85 +16,141 @@ This project documents my journey in learning, building, and iterating on LLM ap
    > **Note:** OpenRouter has occasionally been known to censor its output. However, in the absence of a better alternative, we will continue using it for now.
 3. **Pricing:**  
    We have chosen to work with [OpenRouter](https://openrouter.ai) (with [Together.ai](https://together.ai) as an alternative). 
-I will format this additional section properly so that it is **GitHub README-ready**, with **consistent styling, better readability, and well-structured Markdown tables**. I'll provide the updated version shortly.
-
-Here’s your **GitHub-optimized** version of the **LLM Model Building Reference Guide**, including the additional section you requested. This version ensures **clear formatting, consistent styling, and readability for GitHub**.
 
 ---
 
-# 🚀 LLM Model Building Reference Guide
+# 🚀 Complete OpenRouter AI Model Listing
 
-This guide categorizes LLMs based on **size, architecture, context length, cost, and use case**, helping developers choose the best models for their needs.
-
----
-
-## 🔥 Proprietary Frontier Models (Important to Study)
-
-| **Model Name** | **Parameters** | **Architecture** | **Context Length** | **Special Features** | **Open Source** | **Cost (per 1K tokens)** |
-|--------------|----------|--------------|---------------|------------------|-------------|------------------|
-| **OpenAI: GPT-4** | Unknown (~1.8T est.) | GPT | 8K-128K | Multimodal, RLHF | ❌ No | $0.03-$0.06 |
-| **OpenAI: GPT-4o** | Unknown | GPT | 128K | Fast multimodal | ❌ No | $0.0025-$0.01 |
-| **OpenAI: o1** | Unknown | GPT | 200K | Reasoning focus | ❌ No | $0.015-$0.06 |
-| **Anthropic: Claude 3 Opus** | Unknown (~2T est.) | Claude | 200K | Document analysis | ❌ No | $0.015-$0.075 |
-| **Anthropic: Claude 3.5 Sonnet** | Unknown | Claude | 200K | Advanced reasoning | ❌ No | $0.003-$0.015 |
-| **Google: Gemini Pro 1.5** | Unknown | Gemini | 2M | Long context | ❌ No | $0.00125-$0.005 |
-| **Mistral: Mistral Large** | Unknown | Mistral | 128K | Reasoning, multilingual | ❌ No | $0.002-$0.006 |
+This reference guide includes all AI models available via OpenRouter, **organized by provider**. Use it to explore **LLM architectures** and select models for **learning, benchmarking, or building applications**.
 
 ---
 
-## 🔓 Leading Open Source Models (Best for Direct Learning)
-
-| **Model Name** | **Parameters** | **Architecture** | **Context Length** | **Special Features** | **Open Source** | **Cost (per 1K tokens)** |
-|--------------|----------|--------------|---------------|------------------|-------------|------------------|
-| **Meta: Llama 3.1 405B** | 405B | Llama | 32K | Frontier level | ✅ Yes | $0.0008 |
-| **Meta: Llama 3.1 70B** | 70B | Llama | 131K | Strong general purpose | ✅ Yes | $0.00012-$0.0003 |
-| **DeepSeek: R1** | 671B (37B active) | DeepSeek | 64K | MoE, reasoning | ✅ Yes | $0.00055-$0.00219 |
-| **Mistral: Mixtral 8×22B** | 141B (39B active) | Mistral | 65K | MoE architecture | ✅ Yes | $0.0009 |
-| **Qwen: Qwen 2.5 72B** | 72B | Qwen | 128K | Multilingual | ✅ Yes | $0.00013-$0.0004 |
-| **Microsoft: WizardLM-2 8×22B** | 141B (39B active) | Mistral | 65K | MoE instruction tuning | ✅ Yes | $0.0005 |
-| **Databricks: DBRX 132B** | 132B (36B active) | MoE | 32K | Fine-grained MoE | ✅ Yes | $0.0012 |
-
----
-
-## ⚖️ Mid-Size Models (Good Balance of Performance & Accessibility)
-
-| **Model Name** | **Parameters** | **Architecture** | **Context Length** | **Special Features** | **Open Source** | **Cost (per 1K tokens)** |
-|--------------|----------|--------------|---------------|------------------|-------------|------------------|
-| **Meta: Llama 3 8B** | 8B | Llama | 8K | Strong base model | ✅ Yes | $0.00003-$0.00006 |
-| **Microsoft: Phi-3 Medium** | 14B | Phi | 128K | Strong for size | ✅ Yes | $0.001 |
-| **Mistral: Mistral Small** | 22B | Mistral | 32K | Fast inference | ✅ Yes | $0.0002-$0.0006 |
-| **Google: Gemma 2 27B** | 27B | Gemini | 8K | Google research | ✅ Yes | $0.00027 |
-| **Cohere: Command R** | 35B | Cohere | 128K | RAG optimized | ❌ No | $0.000475-$0.001425 |
-| **OpenAI: GPT-3.5 Turbo** | Unknown | GPT | 16K | Fast, affordable | ❌ No | $0.0005-$0.0015 |
-| **Qwen: Qwen 2 7B** | 7B | Qwen | 32K | Efficient | ✅ Yes | $0.000054 |
+## 📌 Table of Contents
+- [OpenAI Models](#openai-models)
+- [Anthropic Models](#anthropic-models)
+- [Meta (Llama) Models](#meta-llama-models)
+- [Google Models](#google-models)
+- [Mistral AI Models](#mistral-ai-models)
+- [DeepSeek Models](#deepseek-models)
+- [Cohere Models](#cohere-models)
+- [Qwen Models](#qwen-models)
+- [Microsoft Models](#microsoft-models)
+- [Community and Merged Models](#community-and-merged-models)
+- [Specialized/Niche Models](#specializedniche-models)
 
 ---
 
-## 🛠 Small Models (Best for Starting Implementation)
+## 🔷 OpenAI Models
 
-| **Model Name** | **Parameters** | **Architecture** | **Context Length** | **Special Features** | **Open Source** | **Cost (per 1K tokens)** |
-|--------------|----------|--------------|---------------|------------------|-------------|------------------|
-| **Meta: Llama 3.2 1B** | 1B | Llama | 131K | Multilingual | ✅ Yes | Free / $0.00001 |
-| **Meta: Llama 3.2 3B** | 3B | Llama | 131K | Efficient | ✅ Yes | $0.000015-$0.000025 |
-| **Microsoft: Phi-3 Mini** | 3.8B | Phi | 128K | Strong reasoning | ✅ Yes | $0.0001 |
-| **Google: Gemma 2 9B** | 9B | Gemini | 8K | Gemini variant | ✅ Yes | $0.00003-$0.00006 |
-| **Mistral: Mistral 7B** | 7B | Mistral | 32K | Fast, efficient | ✅ Yes | $0.00003-$0.000055 |
-| **Mistral: Ministral 3B** | 3B | Mistral | 128K | Edge computing | ✅ Yes | $0.00004 |
-| **OpenAI: GPT-4o Mini** | Unknown | GPT | 128K | Affordable | ❌ No | $0.00015-$0.0006 |
+| **Model Name** | **Parameters** | **Context** | **Architecture** | **Open Source** | **Cost (per 1K tokens)** |
+|--------------|----------|--------------|--------------|-------------|------------------|
+| **GPT-4o** | Unknown | 128K | GPT | ❌ No | $0.0025 - $0.01 |
+| **GPT-4 Turbo** | Unknown | 128K | GPT | ❌ No | $0.01 - $0.03 |
+| **GPT-4.5 (Preview)** | Unknown | 128K | GPT | ❌ No | $0.075 - $0.15 |
+| **GPT-3.5 Turbo** | Unknown | 16K | GPT | ❌ No | $0.0005 - $0.0015 |
+| **o1** | Unknown | 200K | GPT | ❌ No | $0.015 - $0.06 |
+| **o1-mini** | Unknown | 128K | GPT | ❌ No | $0.0011 - $0.0044 |
+
+---
+
+## 🔶 Anthropic Models
+
+| **Model Name** | **Parameters** | **Context** | **Architecture** | **Open Source** | **Cost (per 1K tokens)** |
+|--------------|----------|--------------|--------------|-------------|------------------|
+| **Claude 3.7 Sonnet** | Unknown | 200K | Claude | ❌ No | $0.003 - $0.015 |
+| **Claude 3.5 Sonnet** | Unknown | 200K | Claude | ❌ No | $0.003 - $0.015 |
+| **Claude 3.5 Haiku** | Unknown | 200K | Claude | ❌ No | $0.0008 - $0.004 |
+| **Claude 3 Opus** | Unknown | 200K | Claude | ❌ No | $0.015 - $0.075 |
+| **Claude 2.1** | Unknown | 200K | Claude | ❌ No | $0.008 - $0.024 |
 
 ---
 
-## 🔬 Specialized Architecture Models (For Advanced Study)
+## 🦙 Meta (Llama) Models
 
-| **Model Name** | **Parameters** | **Architecture** | **Context Length** | **Special Features** | **Open Source** | **Cost (per 1K tokens)** |
-|--------------|----------|--------------|---------------|------------------|-------------|------------------|
-| **Mistral: Codestral Mamba** | 7.3B | Mamba | 256K | Linear attention | ✅ Yes | $0.00025 |
-| **AI21: Jamba** | Variable | SSM-Transformer | 256K | Novel architecture | ❌ No | $0.0005-$0.0007 |
-| **Liquid: LFM 40B** | 40B | RNN hybrid | 32K | Dynamic systems | ✅ Yes | $0.00015 |
-| **Liquid: LFM 7B** | 7B | RNN hybrid | 32K | Efficient | ✅ Yes | $0.00001 |
-| **Anthropic: Claude 3.5 Haiku** | Unknown | Claude | 200K | Fast response | ❌ No | $0.0008-$0.004 |
-| **DeepSeek: DeepSeek-V3** | Unknown | DeepSeek | 131K | RLHF techniques | ✅ Yes | $0.00125 |
-| **Google: Gemini Flash 1.5 8B** | 8B | Gemini | 1M | Long context | ❌ No | $0.0000375-$0.00015 |
+| **Model Name** | **Parameters** | **Context** | **Architecture** | **Open Source** | **Cost (per 1K tokens)** |
+|--------------|----------|--------------|--------------|-------------|------------------|
+| **Llama 3.3 70B Instruct** | 70B | 131K | Llama3 | ✅ Yes | $0.00012 - $0.0003 |
+| **Llama 3.1 405B** | 405B | 32K | Llama3 | ✅ Yes | $0.0008 |
+| **Llama 3.1 70B** | 70B | 131K | Llama3 | ✅ Yes | $0.00012 - $0.0003 |
+| **Llama 3 8B** | 8B | 8K | Llama3 | ✅ Yes | $0.00003 - $0.00006 |
 
 ---
+
+## 🟢 Google Models
+
+| **Model Name** | **Parameters** | **Context** | **Architecture** | **Open Source** | **Cost (per 1K tokens)** |
+|--------------|----------|--------------|--------------|-------------|------------------|
+| **Gemini Pro 1.5** | Unknown | 2M | Gemini | ❌ No | $0.00125 - $0.005 |
+| **Gemini Flash 1.5** | Unknown | 1M | Gemini | ❌ No | $0.0000375 - $0.00015 |
+| **Gemma 2 27B** | 27B | 8K | Gemini | ✅ Yes | $0.00027 |
+| **Gemma 2 9B** | 9B | 8K | Gemini | ✅ Yes | $0.00003 - $0.00006 |
+
+---
+
+## 🟣 Mistral AI Models
+
+| **Model Name** | **Parameters** | **Context** | **Architecture** | **Open Source** | **Cost (per 1K tokens)** |
+|--------------|----------|--------------|--------------|-------------|------------------|
+| **Mixtral 8x7B Instruct** | 47B | 32K | Mistral | ✅ Yes | $0.00024 |
+| **Mistral 7B** | 7B | 32K | Mistral | ✅ Yes | $0.00003 - $0.000055 |
+| **Mistral Large** | Unknown | 128K | Mistral | ❌ No | $0.002 - $0.006 |
+
+---
+
+## 🔵 DeepSeek Models
+
+| **Model Name** | **Parameters** | **Context** | **Architecture** | **Open Source** | **Cost (per 1K tokens)** |
+|--------------|----------|--------------|--------------|-------------|------------------|
+| **DeepSeek R1** | 671B (37B active) | 64K | DeepSeek | ✅ Yes | $0.00055 - $0.00219 |
+
+---
+
+## 🟠 Cohere Models
+
+| **Model Name** | **Parameters** | **Context** | **Architecture** | **Open Source** | **Cost (per 1K tokens)** |
+|--------------|----------|--------------|--------------|-------------|------------------|
+| **Command R** | 35B | 128K | Cohere | ❌ No | $0.000475 - $0.001425 |
+
+---
+
+## 🟡 Qwen Models
+
+| **Model Name** | **Parameters** | **Context** | **Architecture** | **Open Source** | **Cost (per 1K tokens)** |
+|--------------|----------|--------------|--------------|-------------|------------------|
+| **Qwen 2.5 72B** | 72B | 128K | Qwen | ✅ Yes | $0.00013 - $0.0004 |
+
+---
+
+## 🟤 Microsoft Models
+
+| **Model Name** | **Parameters** | **Context** | **Architecture** | **Open Source** | **Cost (per 1K tokens)** |
+|--------------|----------|--------------|--------------|-------------|------------------|
+| **Phi-3 Medium** | 14B | 128K | Phi | ✅ Yes | $0.001 |
+
+---
+
+## 🛠 Community and Merged Models
+
+| **Model Name** | **Parameters** | **Context** | **Architecture** | **Open Source** | **Cost (per 1K tokens)** |
+|--------------|----------|--------------|--------------|-------------|------------------|
+| **Nous: Hermes 3 70B Instruct** | 70B | 131K | Llama3 | ✅ Yes | $0.00012 - $0.0003 |
+
+---
+
+### 📌 Cost Tier Explanation (per 1K tokens)
+
+| **Cost Tier** | **Pricing** |
+|--------------|-------------|
+| **Free** | No cost |
+| **Very Low** | < $0.001 |
+| **Low** | $0.001 - $0.01 |
+| **Medium** | $0.01 - $0.1 |
+| **High** | > $0.1 |
+
+---
+
+### 🔗 **Recommended Resources**
+- [Llama 3 Research](https://ai.meta.com/research/publications/llama-3-a-more-capable-and-aligned-large-language-model-family/)
+- [Mistral AI Reports](https://mistral.ai/news/)
+- [DeepSeek R1 Paper](https://arxiv.org/abs/2312.08673)
 
