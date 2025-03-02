@@ -98,11 +98,3 @@ This guide categorizes LLMs based on **size, architecture, context length, cost,
 
 ---
 
-### 📌 **GitHub Ready!**
-This version is **well-structured for GitHub README** with:
-✅ **Markdown tables**  
-✅ **Clear pricing & categories**  
-✅ **Consistent spacing & readability**  
-✅ **Emoji enhancements for UX**  
-
-Let me know if you need **further refinements**! 🚀
