@@ -19,7 +19,7 @@ This project documents my journey in learning, building, and iterating on LLM ap
 
 ---
 # Complete OpenRouter AI Model Listing
-
+> **Note:** This models were available as of March 1st,2025
 This comprehensive reference guide includes all AI models available from the OpenRouter dataset, organized by provider. Use this for identifying models to study when learning about LLM architecture and building.
 
 ## Table of Contents
@@ -373,7 +373,90 @@ This comprehensive reference guide includes all AI models available from the Ope
 - **Open Source Frontier Models**: Llama 3.1 405B, Mixtral 8x22B, and DeepSeek R1  
 
 ---
+# RAG Model Selection Guide
 
+> Including OpenAI model recommendations
+
+## Essential Factors for RAG Success
+
+1. **Context Window Size** - Larger windows allow more retrieved documents to be included
+2. **Information Synthesis** - Ability to combine multiple sources into coherent answers
+3. **Factual Accuracy** - Tendency to accurately represent retrieved information
+4. **Cost Efficiency** - Value relative to performance for production applications
+5. **Speed** - Response time for interactive applications
+
+## Refined Model Recommendations
+
+### Best Overall RAG Models
+
+1. **Gemini Pro 1.5**
+   * 2M token context window (largest available)
+   * Cost: $0.00125-$0.005 per 1K tokens
+   * Strong synthesis capabilities for retrieved information
+   * Best choice when maximum context is the priority
+
+2. **Claude 3.5 Sonnet**
+   * 200K token context window
+   * Cost: $0.003-$0.015 per 1K tokens
+   * Superior information synthesis and reasoning
+   * Excels at maintaining factual accuracy from sources
+   * Better instruction following than most alternatives
+
+### Best Value for Production
+
+1. **Gemini 2.0 Flash**
+   * 1M token context window
+   * Cost: $0.0000001-$0.0000004 per 1K tokens
+   * Excellent balance of large context and affordability
+   * Good for production systems with significant retrieval needs
+
+2. **Claude 3.5 Haiku**
+   * 200K token context window
+   * Cost: $0.0008-$0.004 per 1K tokens
+   * Faster response times than Sonnet
+   * Strong reasoning with slightly reduced capabilities
+   * Good for interactive RAG applications
+
+### Most Cost-Effective
+
+1. **Mistral Small**
+   * 32K token context window
+   * Cost: $0.0000002-$0.0000006 per 1K tokens
+   * Remarkably cheap for its capabilities
+   * Sufficient for most standard RAG applications
+   * Best choice for cost-sensitive deployments
+
+### For Development/Testing
+
+1. **Llama 3.1 8B Instruct (free)**
+   * 131K token context window
+   * Free tier available
+   * Good for iterative development and testing
+   * Allows rapid prototyping without costs
+
+### Where OpenAI Models Fit
+
+1. **GPT-4o**
+   * 128K token context window
+   * Cost: $0.0025-$0.01 per 1K tokens
+   * Excellent for complex reasoning and precise instruction following
+   * Best OpenAI option for sophisticated RAG applications
+   * Great at generating structured outputs from retrieved information
+
+2. **o1-mini**
+   * 128K token context window
+   * Cost: $0.0011-$0.0044 per 1K tokens
+   * Strong capabilities with dedicated reasoning mode
+   * Good balance of performance and cost within OpenAI lineup
+
+3. **GPT-3.5 Turbo**
+   * 16K token context window
+   * Cost: $0.0005-$0.0015 per 1K tokens
+   * Most cost-effective OpenAI option
+   * Good for simpler RAG applications
+   * Suitable when budget constraints exist but you need OpenAI quality
+
+## Which Models to pick 
 ## Recommended Resources
 
 - [Llama 3 Technical Paper](https://ai.meta.com/research/publications/llama-3-a-more-capable-and-aligned-large-language-model-family/)
