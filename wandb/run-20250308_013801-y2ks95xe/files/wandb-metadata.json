@@ -1,0 +1,35 @@
+{
+  "os":  "macOS-10.15.7-x86_64-i386-64bit",
+  "python":  "CPython 3.11.2",
+  "startedAt":  "2025-03-08T06:38:01.924351Z",
+  "program":  "/Users/swastik/Job_Search_2025/Projects/Building_LLM_Apps/tokenisation.ipynb",
+  "codePath":  "tokenisation.ipynb",
+  "git":  {
+    "remote":  "https://github.com/Rishav09/Building_LLM_Apps.git",
+    "commit":  "5131e9e4d4de51a40ed57fee54b383c65efdde9f"
+  },
+  "email":  "rishavsapahia@gmail.com",
+  "root":  "/Users/swastik/Job_Search_2025/Projects/Building_LLM_Apps",
+  "host":  "rishavs-MBP.attlocal.net",
+  "executable":  "/opt/miniconda3/envs/Shambhala/bin/python",
+  "codePathLocal":  "tokenisation.ipynb",
+  "cpu_count":  4,
+  "cpu_count_logical":  8,
+  "disk":  {
+    "/":  {
+      "total":  "250790436864",
+      "used":  "11272704000"
+    },
+    "/System/Volumes/Data":  {
+      "total":  "250790436864",
+      "used":  "198185893888"
+    }
+  },
+  "memory":  {
+    "total":  "17179869184"
+  },
+  "cpu":  {
+    "count":  4,
+    "countLogical":  8
+  }
+}

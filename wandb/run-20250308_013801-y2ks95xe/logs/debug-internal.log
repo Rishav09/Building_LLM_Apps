@@ -1,0 +1,12 @@
+{"time":"2025-03-08T01:38:01.928249-05:00","level":"INFO","msg":"stream: starting","core version":"0.19.8","symlink path":"/Users/swastik/Job_Search_2025/Projects/Building_LLM_Apps/wandb/run-20250308_013801-y2ks95xe/logs/debug-core.log"}
+{"time":"2025-03-08T01:38:01.955477-05:00","level":"INFO","msg":"created new stream","id":"y2ks95xe"}
+{"time":"2025-03-08T01:38:01.955615-05:00","level":"INFO","msg":"stream: started","id":"y2ks95xe"}
+{"time":"2025-03-08T01:38:01.955643-05:00","level":"INFO","msg":"writer: Do: started","stream_id":"y2ks95xe"}
+{"time":"2025-03-08T01:38:01.955657-05:00","level":"INFO","msg":"handler: started","stream_id":"y2ks95xe"}
+{"time":"2025-03-08T01:38:01.956011-05:00","level":"INFO","msg":"sender: started","stream_id":"y2ks95xe"}
+{"time":"2025-03-08T01:38:02.203387-05:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-03-08T01:38:02.983561-05:00","level":"INFO","msg":"Pausing system monitor"}
+{"time":"2025-03-08T01:38:24.89324-05:00","level":"INFO","msg":"Resuming system monitor"}
+{"time":"2025-03-08T01:38:27.152982-05:00","level":"INFO","msg":"Pausing system monitor"}
+{"time":"2025-03-08T01:38:35.062836-05:00","level":"INFO","msg":"Resuming system monitor"}
+{"time":"2025-03-08T01:38:35.068902-05:00","level":"INFO","msg":"Pausing system monitor"}

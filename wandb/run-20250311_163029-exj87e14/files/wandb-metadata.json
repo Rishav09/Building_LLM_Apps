@@ -1,0 +1,35 @@
+{
+  "os":  "macOS-10.15.7-x86_64-i386-64bit",
+  "python":  "CPython 3.11.2",
+  "startedAt":  "2025-03-11T20:30:29.627952Z",
+  "program":  "/Users/swastik/Job_Search_2025/Projects/Building_LLM_Apps/sampling.ipynb",
+  "codePath":  "sampling.ipynb",
+  "git":  {
+    "remote":  "https://github.com/Rishav09/Building_LLM_Apps.git",
+    "commit":  "5131e9e4d4de51a40ed57fee54b383c65efdde9f"
+  },
+  "email":  "rishavsapahia@gmail.com",
+  "root":  "/Users/swastik/Job_Search_2025/Projects/Building_LLM_Apps",
+  "host":  "rishavs-MacBook-Pro.local",
+  "executable":  "/opt/miniconda3/envs/Shambhala/bin/python",
+  "codePathLocal":  "sampling.ipynb",
+  "cpu_count":  4,
+  "cpu_count_logical":  8,
+  "disk":  {
+    "/":  {
+      "total":  "250790436864",
+      "used":  "11272704000"
+    },
+    "/System/Volumes/Data":  {
+      "total":  "250790436864",
+      "used":  "196247990272"
+    }
+  },
+  "memory":  {
+    "total":  "17179869184"
+  },
+  "cpu":  {
+    "count":  4,
+    "countLogical":  8
+  }
+}
