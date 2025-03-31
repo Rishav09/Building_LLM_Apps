@@ -1,46 +1,180 @@
-Below is a revised version of your README text with improved clarity and formatting:
+## 1. Project Overview
+
+This project documents my ongoing journey in learning, building, and iterating on Large Language Model (LLM) applications. The initial focus is on developing text-to-text interactions, establishing a solid foundation before potentially expanding to image and sound capabilities in the future. The methodology involves a structured, iterative approach, starting with fundamental techniques and progressing towards more complex implementations.
+
+## 2. Methodology and Approach
+
+### 2.1. Iterative Development Strategy
+
+Building effective LLM applications often requires an iterative process. My approach follows a path of increasing sophistication:
+
+1.  **Prompt Engineering:** Mastering the art of crafting effective prompts to guide LLM behavior for specific tasks. This is the foundational layer.
+2.  **Retrieval-Augmented Generation (RAG):** Implementing systems where the LLM's knowledge is augmented with external, retrieved information to provide more accurate, context-specific, and up-to-date responses.
+3.  **Fine-tuning:** Adapting pre-trained LLMs to specific domains or tasks by further training them on custom datasets (to be explored later in the project).
+
+While these appear as distinct stages, they are interconnected. Strong prompt engineering is vital for effective RAG and fine-tuning analysis. This project aims to build proficiency across these areas.
+
+### 2.2. Core Requirement: Model Flexibility
+
+A key initial requirement is the ability to easily experiment with and switch between different LLMs. This flexibility is crucial for:
+
+*   Testing various model capabilities against specific tasks.
+*   Comparing performance, cost, and output quality.
+*   Staying adaptable as new models emerge.
+
+### 2.3. Provider Selection: OpenRouter
+
+To achieve model flexibility, I have selected [OpenRouter](https://openrouter.ai) as the primary API provider.
+
+*   **Rationale:** OpenRouter provides a unified API endpoint that allows hot-swapping between a wide variety of models from different providers (OpenAI, Anthropic, Meta, Google, Mistral, etc.). This significantly simplifies the experimentation process.
+*   **Alternative:** [Together.ai](https://together.ai) is considered a viable alternative provider.
+*   **Note:** While OpenRouter offers excellent flexibility, it has occasionally been known to apply content filtering or censorship to its outputs. This is a factor being monitored, but its model variety currently makes it the most suitable choice for the project's goals.
+
+## 3. Current Status: Phase 1 - Model Exploration & Initial Prompt Engineering
+
+The project is currently in its initial phase, focusing on model exploration via OpenRouter and foundational prompt engineering techniques.
+
+### 3.1. Model Landscape Research (OpenRouter)
+
+A comprehensive survey of models available through OpenRouter (as of early March 2025) has been conducted. This involved compiling detailed information including model families, parameters (where available), context window size, architecture, cost, and open-source status.
+
+*   This extensive list serves as a reference for selecting models for different tasks and understanding the current LLM landscape accessible via the chosen provider.
+*   **Reference:** See **Appendix A: Complete OpenRouter AI Model Listing** for the full dataset, cost tier explanations, and key model types identified for study.
+*   **Reference:** See **Appendix B: RAG Model Selection Guide (Preliminary)** for factors and initial model recommendations considered for future RAG implementation.
+
+### 3.2. Initial Model Selection for Development
+
+Based on the research and the need for cost-effective development cycles, the following models have been selected for initial prompt engineering experiments:
+
+*   `meta-llama/llama-3.1-8b-instruct:free` (Leveraging OpenRouter's free tier for rapid prototyping)
+*   Google's Gemma family models (Specifically exploring Gemma 2/3 variants as noted in experiments below)
+
+### 3.3. Prompt Engineering Exploration
+
+The current focus is on understanding and applying various prompt engineering techniques. This is crucial for controlling and optimizing LLM outputs without modifying the underlying model.
+
+**Techniques Under Review:**
+
+*   Zero-shot Prompting
+*   Few-shot Prompting
+*   Chain of Thought (CoT) Prompting (Manual and Automatic)
+*   Self-Consistency
+*   Knowledge Prompting
+*   Prompt Chaining
+*   Tree of Thought (ToT)
+*   Retrieval-Augmented Generation (RAG - as a prompting strategy initially)
+*   Automatic Reasoning and Tool-use (ReAct)
+*   Structured Prompting Frameworks (e.g., TELER, TASK)
+
+**Initial Experiments & Observations:**
+
+*   **Zero-shot Prompting:** Successfully used for basic instruction following without examples.
+    *   *Example Task:* Classify place names.
+    *   *Prompt:*
+        ```
+        Classify the names of places in this paragraph - Text: Shahpur is the place where I grew up, you grew up in Germany or Pataliputra
+        ```
+    *   *Observed Output (Model Dependent):*
+        ```
+        Here's the classification of place names in the paragraph:
+        1. Shahpur - Place name (likely a town or village...)
+        2. Germany - Country name (...)
+        3. Pataliputra - Historical place name (...)
+        All three are geographical place names...
+        ```
+
+*   **Few-shot Prompting:** Providing examples within the prompt to guide the model's output format and reasoning.
+    *   *Example Task 1:* Simple classification with examples.
+    *   *Prompt:*
+        ```
+        Shahpur:Place, Germany: Place, Cat: Animal, Table?
+        ```
+    *   *Observed Output:*
+        ```
+        Table: Object
+        A table is a piece of furniture...
+        ```
+    *   *Example Task 2:* Reasoning task (Odd/Even Sum). *Reference: [PromptingGuide.ai](https://www.promptingguide.ai/techniques/fewshot)*
+    *   *Prompt:*
+        ```
+        The odd numbers in this group add up to an even number: 4, 8, 9, 15, 12, 2, 1.
+        A: The answer is False.
+        The odd numbers in this group add up to an even number: 17, 10, 19, 4, 8, 12, 24.
+        A: The answer is True.
+        The odd numbers in this group add up to an even number: 16, 11, 14, 4, 8, 13, 24.
+        A: The answer is True.
+        The odd numbers in this group add up to an even number: 17, 9, 10, 12, 13, 4, 2.
+        A: The answer is False.
+        The odd numbers in this group add up to an even number: 15, 32, 5, 13, 82, 7, 1.
+        A:
+        ```
+    *   *Observation & Model Difference:* This specific few-shot prompt yielded different results depending on the model used, highlighting the importance of model selection and testing even for seemingly simple prompts.
+        *   **Gemma 2 27B Output:** `A: The answer is True.` *(Incorrect reasoning based on the provided examples)*
+        *   **Gemma 3 27B Output:**
+            ```
+            Let's analyze the pattern:
+            * False: Odd numbers are 9 and 1. 9 + 1 = 10 (even). The answer should be True.
+            * True: Odd numbers are 17 and 19. 17 + 19 = 36 (even).
+            * True: Odd numbers are 11 and 13. 11 + 13 = 24 (even).
+            * False: Odd numbers are 17, 9, and 13. 17 + 9 + 13 = 39 (odd).
+            * Previous Answer: Odd numbers are 15, 5, 7, and 1. 15 + 5 + 7 + 1 = 28 (even).
+
+            The pattern seems to be checking if the *sum* of the odd numbers is even...
+            Now, let's apply this to the last example:
+            The odd numbers in this group add up to an even number: 15, 32, 5, 13, 82, 7, 1.
+            1. Identify odd numbers: 15, 5, 13, 7, 1
+            2. Count odd numbers: There are 5 odd numbers (an odd number of odd numbers).
+            3. Sum odd numbers: 15 + 5 + 13 + 7 + 1 = 41 (odd)
+            Therefore, the statement is false.
+            A: The answer is False.
+            ```
+        *   *Insight:* This demonstrates that newer/different models (like Gemma 3 vs Gemma 2) can exhibit improved reasoning or instruction following capabilities, reinforcing the need for model flexibility and experimentation.
+
+## 4. Roadmap and Next Steps
+
+1.  **Continue Prompt Engineering:** Further explore and experiment with advanced techniques like CoT, Self-Consistency, and structured prompting frameworks across selected models. Document findings and best practices.
+2.  **Develop RAG Prototype:** Begin implementing a basic RAG system using one of the value-focused models identified (e.g., Gemini 2.0 Flash, Claude 3.5 Haiku, or potentially GPT-4o/o1-mini depending on complexity needs and budget).
+3.  **Iterate and Evaluate:** Systematically evaluate the performance of different models and prompting strategies for specific tasks (initially text classification, summarization, Q&A).
+4.  **Explore Fine-tuning (Future):** Investigate fine-tuning smaller, open-source models (like Llama 3 variants) on specific datasets once a solid understanding of prompting and RAG is established.
+5.  **Expand Modalities (Long-term):** Consider incorporating image and sound capabilities as the project progresses and foundational text-based skills are solidified.
+
+## 5. Recommended Resources
+
+The following resources are being used for reference and further learning:
+
+*   [Llama 3 Technical Paper](https://ai.meta.com/research/publications/llama-3-a-more-capable-and-aligned-large-language-model-family/)
+*   [Mistral AI Technical Reports](https://mistral.ai/news/)
+*   [DeepSeek R1 Technical Report](https://arxiv.org/abs/2312.08673)
+*   [Mixtral MoE Paper](https://arxiv.org/abs/2401.04088)
+*   [Microsoft Phi-3 Technical Report](https://arxiv.org/abs/2404.14219)
+*   [Hugging Face Documentation](https://huggingface.co/docs)
+*   [Papers With Code LLM Section](https://paperswithcode.com/task/language-modelling)
+*   [PromptingGuide.ai](https://www.promptingguide.ai/)
 
 ---
 
-## Project Overview
+## Appendix A: Complete OpenRouter AI Model Listing (as of March 1st, 2025)
 
-This project documents my journey in learning, building, and iterating on LLM applications. The focus is on developing text-to-text interactions initially, with plans to expand to image and sound capabilities in the future.
+*This comprehensive reference guide includes AI models available via OpenRouter, organized by provider. It aids in selecting models for study and experimentation.*
 
-## Roadmap
-
-1. **Model Flexibility:**  
-   The first step is selecting a group API provider that allows seamless switching between different models. This will enable easy experimentation and testing of various models.
-
-2. **Provider Choice:**  
-   We have chosen to work with [OpenRouter](https://openrouter.ai) (with [Together.ai](https://together.ai) as an alternative).  
-   > **Note:** OpenRouter has occasionally been known to censor its output. However, in the absence of a better alternative, we will continue using it for now.
-3. **Pricing:**  
-   We have chosen to work with [OpenRouter](https://openrouter.ai) (with [Together.ai](https://together.ai) as an alternative). 
-
----
-# Complete OpenRouter AI Model Listing
-> **Note:** This models were available as of March 1st,2025
-This comprehensive reference guide includes all AI models available from the OpenRouter dataset, organized by provider. Use this for identifying models to study when learning about LLM architecture and building.
-
-## Table of Contents
-- [OpenAI Models](#openai-models)
-- [Anthropic Models](#anthropic-models)
-- [Meta (Llama) Models](#meta-llama-models)
-- [Google Models](#google-models)
-- [Mistral AI Models](#mistral-ai-models)
-- [DeepSeek Models](#deepseek-models)
-- [Cohere Models](#cohere-models)
-- [Qwen Models](#qwen-models)
-- [Microsoft Models](#microsoft-models)
-- [Community and Merged Models](#community-and-merged-models)
-- [Specialized/Niche Models](#specializedniche-models)
-- [Cost Tier Explanation (per 1K tokens)](#cost-tier-explanation-per-1k-tokens)
-- [Learning LLM Building: Key Model Types To Study](#learning-llm-building-key-model-types-to-study)
-- [Recommended Resources](#recommended-resources)
+**Table of Contents**
+- [OpenAI Models](#openai-models-appendix)
+- [Anthropic Models](#anthropic-models-appendix)
+- [Meta (Llama) Models](#meta-llama-models-appendix)
+- [Google Models](#google-models-appendix)
+- [Mistral AI Models](#mistral-ai-models-appendix)
+- [DeepSeek Models](#deepseek-models-appendix)
+- [Cohere Models](#cohere-models-appendix)
+- [Qwen Models](#qwen-models-appendix)
+- [Microsoft Models](#microsoft-models-appendix)
+- [Community and Merged Models](#community-and-merged-models-appendix)
+- [Specialized/Niche Models](#specializedniche-models-appendix)
+- [Cost Tier Explanation (per 1K tokens)](#cost-tier-explanation-appendix)
+- [Learning LLM Building: Key Model Types To Study](#key-model-types-appendix)
 
 ---
 
-## OpenAI Models
+### OpenAI Models (Appendix)
 
 | Model Name                   | Parameters | Context | Architecture | Open Source | Cost (per 1K tokens)    |
 |-----------------------------|------------|---------|--------------|-------------|-------------------------|
@@ -71,7 +205,7 @@ This comprehensive reference guide includes all AI models available from the Ope
 
 ---
 
-## Anthropic Models
+### Anthropic Models (Appendix)
 
 | Model Name                                | Parameters | Context | Architecture | Open Source | Cost (per 1K tokens) |
 |------------------------------------------|------------|---------|--------------|-------------|----------------------|
@@ -103,7 +237,7 @@ This comprehensive reference guide includes all AI models available from the Ope
 
 ---
 
-## Meta (Llama) Models
+### Meta (Llama) Models (Appendix)
 
 | Model Name                                 | Parameters | Context | Architecture | Open Source | Cost (per 1K tokens)           |
 |-------------------------------------------|------------|---------|--------------|-------------|--------------------------------|
@@ -132,7 +266,7 @@ This comprehensive reference guide includes all AI models available from the Ope
 
 ---
 
-## Google Models
+### Google Models (Appendix)
 
 | Model Name                               | Parameters | Context | Architecture | Open Source | Cost (per 1K tokens)               |
 |-----------------------------------------|------------|---------|--------------|-------------|------------------------------------|
@@ -162,7 +296,7 @@ This comprehensive reference guide includes all AI models available from the Ope
 
 ---
 
-## Mistral AI Models
+### Mistral AI Models (Appendix)
 
 | Model Name                      | Parameters              | Context | Architecture | Open Source | Cost (per 1K tokens)           |
 |--------------------------------|-------------------------|---------|--------------|-------------|--------------------------------|
@@ -193,7 +327,7 @@ This comprehensive reference guide includes all AI models available from the Ope
 
 ---
 
-## DeepSeek Models
+### DeepSeek Models (Appendix)
 
 | Model Name                                 | Parameters            | Context | Architecture | Open Source | Cost (per 1K tokens)                 |
 |-------------------------------------------|-----------------------|---------|--------------|-------------|--------------------------------------|
@@ -211,7 +345,7 @@ This comprehensive reference guide includes all AI models available from the Ope
 
 ---
 
-## Cohere Models
+### Cohere Models (Appendix)
 
 | Model Name             | Parameters | Context | Architecture | Open Source | Cost (per 1K tokens)              |
 |------------------------|------------|---------|--------------|-------------|-----------------------------------|
@@ -226,7 +360,7 @@ This comprehensive reference guide includes all AI models available from the Ope
 
 ---
 
-## Qwen Models
+### Qwen Models (Appendix)
 
 | Model Name                          | Parameters | Context | Architecture | Open Source | Cost (per 1K tokens)        |
 |------------------------------------|-----------|---------|--------------|-------------|-----------------------------|
@@ -248,7 +382,7 @@ This comprehensive reference guide includes all AI models available from the Ope
 
 ---
 
-## Microsoft Models
+### Microsoft Models (Appendix)
 
 | Model Name                            | Parameters | Context | Architecture | Open Source | Cost (per 1K tokens)         |
 |--------------------------------------|-----------|---------|--------------|-------------|------------------------------|
@@ -266,7 +400,7 @@ This comprehensive reference guide includes all AI models available from the Ope
 
 ---
 
-## Community and Merged Models
+### Community and Merged Models (Appendix)
 
 | Model Name                                  | Parameters               | Context | Architecture | Open Source | Cost (per 1K tokens)            |
 |--------------------------------------------|--------------------------|---------|--------------|-------------|---------------------------------|
@@ -311,7 +445,7 @@ This comprehensive reference guide includes all AI models available from the Ope
 
 ---
 
-## Specialized/Niche Models
+### Specialized/Niche Models (Appendix)
 
 | Model Name                                   | Parameters          | Context | Architecture | Open Source | Cost (per 1K tokens)        |
 |---------------------------------------------|---------------------|---------|--------------|-------------|-----------------------------|
@@ -354,115 +488,63 @@ This comprehensive reference guide includes all AI models available from the Ope
 
 ---
 
-## Cost Tier Explanation (per 1K tokens)
+### Cost Tier Explanation (Appendix - per 1K tokens)
 
-- **Free**: No cost to use  
-- **Very Low**: < $0.001 (less than $0.001 per 1K tokens)  
-- **Low**: $0.001-$0.01 (between $0.001 and $0.01 per 1K tokens)  
-- **Medium**: $0.01-$0.1 (between $0.01 and $0.1 per 1K tokens)  
-- **High**: > $0.1 (more than $0.1 per 1K tokens)
+*   **Free**: No cost to use
+*   **Very Low**: < $0.001 (less than $0.001 per 1K tokens)
+*   **Low**: $0.001-$0.01 (between $0.001 and $0.01 per 1K tokens)
+*   **Medium**: $0.01-$0.1 (between $0.01 and $0.1 per 1K tokens)
+*   **High**: > $0.1 (more than $0.1 per 1K tokens)
+    *Note: Costs often vary between input (prompt) and output (completion) tokens. Ranges reflect this where applicable.*
+
+---
+
+### Key Model Types To Study (Appendix - Learning LLM Building)
+
+*   **Base Models**: Foundational architectures (Llama 3/3.1/3.2, Mistral, Qwen2, etc.) provide understanding of core transformer designs.
+*   **MoE Models**: Mixture of Experts (DeepSeek R1, Mixtral 8x7B/8x22B) demonstrate parameter-efficient scaling techniques.
+*   **Alternative Architectures**: Mamba (state space models), Jamba (SSM-Transformer hybrid) show emerging non-transformer or hybrid approaches.
+*   **Parameter Efficient Models**: Small but powerful models (Phi-3, Ministral, Gemma) highlight capabilities achievable with fewer parameters.
+*   **Open Source Frontier Models**: Large-scale open models (Llama 3.1 405B, Mixtral 8x22B, DeepSeek R1) represent the cutting edge of accessible model architectures.
 
 ---
 
-## Learning LLM Building: Key Model Types To Study
+## Appendix B: RAG Model Selection Guide (Preliminary)
 
-- **Base Models**: Study foundational architectures (Llama 3/3.1/3.2, Mistral, Qwen2, etc.)  
-- **MoE Models**: Examine Mixture of Experts (DeepSeek R1, Mixtral 8x7B/8x22B)  
-- **Alternative Architectures**: Look at Mamba (state space models), Jamba (SSM-Transformer)  
-- **Parameter Efficient Models**: Small but powerful (Phi-3, Ministral, Gemma)  
-- **Open Source Frontier Models**: Llama 3.1 405B, Mixtral 8x22B, and DeepSeek R1  
+*This section outlines factors and top contenders identified for future Retrieval-Augmented Generation (RAG) implementations, including considerations for OpenAI models.*
 
----
-# RAG Model Selection Guide
+### Essential Factors for RAG Success
 
-> Including OpenAI model recommendations
+1.  **Context Window Size:** Larger windows allow more retrieved documents to be included, potentially improving answer quality and relevance.
+2.  **Information Synthesis:** The model's ability to effectively combine information from multiple retrieved sources into a coherent, accurate answer.
+3.  **Factual Accuracy / Faithfulness:** The model's tendency to accurately represent the information contained within the provided context (retrieved documents) and avoid hallucination.
+4.  **Cost Efficiency:** The balance between performance and cost, crucial for deploying applications at scale.
+5.  **Speed (Latency):** Response time, particularly important for interactive RAG applications.
 
-## Essential Factors for RAG Success
+### Refined Model Recommendations (Preliminary Shortlist)
 
-1. **Context Window Size** - Larger windows allow more retrieved documents to be included
-2. **Information Synthesis** - Ability to combine multiple sources into coherent answers
-3. **Factual Accuracy** - Tendency to accurately represent retrieved information
-4. **Cost Efficiency** - Value relative to performance for production applications
-5. **Speed** - Response time for interactive applications
+*These models represent strong candidates based on initial research for various RAG use cases.*
 
-## Refined Model Recommendations
+**Best Overall RAG Models:**
 
-### Best Overall RAG Models
+1.  **Gemini Pro 1.5:** Largest context window (2M tokens), strong synthesis. Ideal when maximum context is paramount. (Cost: Low)
+2.  **Claude 3.5 Sonnet:** Large context (200K tokens), excellent synthesis, reasoning, and faithfulness. A top contender for quality. (Cost: Low)
 
-1. **Gemini Pro 1.5**
-   * 2M token context window (largest available)
-   * Cost: $0.00125-$0.005 per 1K tokens
-   * Strong synthesis capabilities for retrieved information
-   * Best choice when maximum context is the priority
+**Best Value for Production:**
 
-2. **Claude 3.5 Sonnet**
-   * 200K token context window
-   * Cost: $0.003-$0.015 per 1K tokens
-   * Superior information synthesis and reasoning
-   * Excels at maintaining factual accuracy from sources
-   * Better instruction following than most alternatives
+1.  **Gemini 2.0 Flash:** Very large context (1M tokens) at extremely low cost. Excellent balance for production systems. (Cost: Very Low)
+2.  **Claude 3.5 Haiku:** Large context (200K tokens), faster than Sonnet, good reasoning. Suitable for interactive RAG. (Cost: Very Low)
 
-### Best Value for Production
+**Most Cost-Effective:**
 
-1. **Gemini 2.0 Flash**
-   * 1M token context window
-   * Cost: $0.0000001-$0.0000004 per 1K tokens
-   * Excellent balance of large context and affordability
-   * Good for production systems with significant retrieval needs
+1.  **Mistral Small:** Sufficient context (32K tokens) at extremely low cost. Best for highly cost-sensitive deployments with standard RAG needs. (Cost: Very Low)
 
-2. **Claude 3.5 Haiku**
-   * 200K token context window
-   * Cost: $0.0008-$0.004 per 1K tokens
-   * Faster response times than Sonnet
-   * Strong reasoning with slightly reduced capabilities
-   * Good for interactive RAG applications
+**For Development/Testing:**
 
-### Most Cost-Effective
+1.  **Llama 3.1 8B Instruct (free):** Good context (131K tokens) with a free tier available on OpenRouter. Ideal for rapid prototyping without cost barriers.
 
-1. **Mistral Small**
-   * 32K token context window
-   * Cost: $0.0000002-$0.0000006 per 1K tokens
-   * Remarkably cheap for its capabilities
-   * Sufficient for most standard RAG applications
-   * Best choice for cost-sensitive deployments
+**Where OpenAI Models Fit:**
 
-### For Development/Testing
-
-1. **Llama 3.1 8B Instruct (free)**
-   * 131K token context window
-   * Free tier available
-   * Good for iterative development and testing
-   * Allows rapid prototyping without costs
-
-### Where OpenAI Models Fit
-
-1. **GPT-4o**
-   * 128K token context window
-   * Cost: $0.0025-$0.01 per 1K tokens
-   * Excellent for complex reasoning and precise instruction following
-   * Best OpenAI option for sophisticated RAG applications
-   * Great at generating structured outputs from retrieved information
-
-2. **o1-mini**
-   * 128K token context window
-   * Cost: $0.0011-$0.0044 per 1K tokens
-   * Strong capabilities with dedicated reasoning mode
-   * Good balance of performance and cost within OpenAI lineup
-
-3. **GPT-3.5 Turbo**
-   * 16K token context window
-   * Cost: $0.0005-$0.0015 per 1K tokens
-   * Most cost-effective OpenAI option
-   * Good for simpler RAG applications
-   * Suitable when budget constraints exist but you need OpenAI quality
-
-## Which Models to pick 
-## Recommended Resources
-
-- [Llama 3 Technical Paper](https://ai.meta.com/research/publications/llama-3-a-more-capable-and-aligned-large-language-model-family/)
-- [Mistral AI Technical Reports](https://mistral.ai/news/)
-- [DeepSeek R1 Technical Report](https://arxiv.org/abs/2312.08673)
-- [Mixtral MoE Paper](https://arxiv.org/abs/2401.04088)
-- [Microsoft Phi-3 Technical Report](https://arxiv.org/abs/2404.14219)
-- [Hugging Face Documentation](https://huggingface.co/docs)
-- [Papers With Code LLM Section](https://paperswithcode.com/task/language-modelling)
+1.  **GPT-4o:** Good context (128K tokens), top-tier reasoning, instruction following, and structured output generation. Premium OpenAI option for complex RAG. (Cost: Low)
+2.  **o1-mini:** Good context (128K tokens), strong capabilities, especially reasoning-focused tasks. Good performance/cost balance within OpenAI. (Cost: Low)
+3.  **GPT-3.5 Turbo:** Smaller context (16K tokens), but the most cost-effective OpenAI option. Suitable for simpler RAG tasks under budget constraints. (Cost: Very Low/Low)
